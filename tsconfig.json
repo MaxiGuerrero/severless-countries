@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "preserveConstEnums": true,
+    "strictNullChecks": true,
+    "sourceMap": true,
+    "allowJs": true,
+    "baseUrl": ".",
+    "outDir": ".build",
+    "module": "CommonJS",
+    "target": "ESNext",
+    "moduleResolution": "Node",
+    "skipLibCheck": true,
+    "lib": ["es2015"],
+    "rootDir": "./",
+    "paths": {
+      "http/*": ["src/http/*"],
+      "functions/*": ["src/functions/*"],
+      "config/*": ["src/config/*"],
+      "models/*": ["src/models/*"],
+      "utils/*": ["src/utils/*"]
+    }
+  },
+  "exclude": ["node_modules", "tests", "jest.config.ts"]
+}

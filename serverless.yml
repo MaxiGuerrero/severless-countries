@@ -1,0 +1,22 @@
+service: countries
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+functions:
+  getReportCountry:
+    handler: src/functions/reports/index.handler
+    events:
+      - httpApi: GET /report
+
+plugins:
+  - serverless-offline
+  - serverless-plugin-typescript
+  - serverless-tscpaths
+  - serverless-apigw-binary
+
+custom:
+  apigwBinary:
+    types:
+      - "*/*"
