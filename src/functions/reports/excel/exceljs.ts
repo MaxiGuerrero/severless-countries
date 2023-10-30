@@ -1,5 +1,5 @@
 import { Column, Style, Worksheet, Workbook } from "exceljs";
-import * as path from "path";
+import { getFilePath } from "utils/getfilepath";
 
 export default class Excel {
   workbook: Workbook;
@@ -42,12 +42,10 @@ export default class Excel {
 
   async commitWorkbook(filename: string): Promise<string> {
     console.log(`File ${filename} starting to build...`);
-    const filepath = path.resolve(
-      `${process.cwd()}/reports`,
-      `${filename}.xlsx`
-    );
-    this.workbook.xlsx.writeFile(filepath);
+    const filepath = getFilePath(`${filename}.xlsx`);
+    await this.workbook.xlsx.writeFile(filepath);
     console.log("Excel built successfully");
+    this.workbook.eachSheet((ws) => this.workbook.removeWorksheet(ws.name));
     return filepath;
   }
 
@@ -58,5 +56,9 @@ export default class Excel {
     });
     console.log("File upload successfully");
     return id;
+  }
+
+  setImageToWorksheet(worksheet: Worksheet, imageId: number, position: string) {
+    worksheet.addImage(imageId, position);
   }
 }

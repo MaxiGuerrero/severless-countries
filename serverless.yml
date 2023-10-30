@@ -1,22 +1,40 @@
 service: countries
 
+useDotenv: true
+
 provider:
   name: aws
   runtime: nodejs18.x
+  region: us-east-2
+  stage: prod
+
+params:
+  default:
+    folderPath: ""
+  prod:
+    folderPath: /tmp
 
 functions:
   getReportCountry:
-    handler: src/functions/reports/index.handler
+    handler: src/functions/reports/route.handler
     events:
       - httpApi: GET /report
+    environment:
+      MAIN_PATH: ${param:folderPath}
+    timeout: 20
+  swagger:
+    handler: src/functions/api-docs/route.handler
+    events:
+      - httpApi: GET /
+    environment:
+      URL: https://u5xi75eut1.execute-api.us-east-2.amazonaws.com
+  getCountries:
+    handler: src/functions/retrive-countries/route.handler
+    events:
+      - httpApi: GET /countries
+    timeout: 20
 
 plugins:
   - serverless-offline
   - serverless-plugin-typescript
   - serverless-tscpaths
-  - serverless-apigw-binary
-
-custom:
-  apigwBinary:
-    types:
-      - "*/*"

@@ -1,5 +1,6 @@
-import * as path from "path";
 import puppeteer from "puppeteer";
+import chromium = require("@sparticuz/chromium");
+import { getFilePath } from "utils/getfilepath";
 
 export default class Chart {
   colors = [
@@ -21,12 +22,22 @@ export default class Chart {
     labels: string[]
   ): Promise<string> {
     try {
-      const pathImage = path.resolve(`${process.cwd()}/reports`, `image.png`);
+      const pathImage = await getFilePath(`image.png`);
       if (values.length !== labels.length)
         throw new Error(
           `Labels and values does not have equal size values ${values.length} vs labels ${labels.length}`
         );
-      const browser = await puppeteer.launch();
+      const browser = await puppeteer.launch({
+        executablePath: await chromium.executablePath(),
+        headless: chromium.headless,
+        ignoreHTTPSErrors: true,
+        defaultViewport: {
+          ...chromium.defaultViewport,
+          width: 800,
+          height: 600,
+        },
+        args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
+      });
       const page = await browser.newPage();
       const options = {
         responsive: true,

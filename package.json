@@ -4,17 +4,19 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "start": "serverless offline --httpPort 4000",
+    "start": "node build && serverless offline --httpPort 4000 --stage dev",
     "debug": "node --trace-warnings node_modules/serverless/bin/serverless offline --httpPort 4000",
-    "test": "jest"
+    "test": "jest",
+    "deploy": "node build && serverless deploy"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/aws-lambda": "^8.10.125",
     "@types/jest": "^29.5.6",
+    "@types/js-yaml": "^4.0.8",
+    "fs-extra": "^11.1.1",
     "jest": "^29.7.0",
-    "serverless-apigw-binary": "^0.4.4",
     "serverless-offline": "^13.2.0",
     "serverless-plugin-typescript": "^2.1.5",
     "serverless-tscpaths": "^0.0.8",
@@ -24,9 +26,12 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@sparticuz/chromium": "^118.0.0",
     "axios": "^1.5.1",
     "chart.js": "^4.4.0",
     "exceljs": "^4.4.0",
-    "puppeteer": "^21.4.0"
+    "js-yaml": "^4.1.0",
+    "puppeteer": "^21.4.1",
+    "puppeteer-core": "^21.4.1"
   }
 }

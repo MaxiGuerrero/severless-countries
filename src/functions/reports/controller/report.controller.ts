@@ -1,5 +1,5 @@
 import { Country } from "models/country";
-import CountryService from "../service/country.service";
+import CountryService from "../../retrive-countries/service/country.service";
 import ReportService from "../service/report.service";
 import { countElementRepeat } from "utils/countRepeatElements";
 

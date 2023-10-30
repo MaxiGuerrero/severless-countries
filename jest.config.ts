@@ -12,6 +12,7 @@ const config: Config = {
     "^config(.*)$": "<rootDir>/src/config/$1",
     "^http(.*)$": "<rootDir>/src/http/$1",
     "^models(.*)$": "<rootDir>/src/models/$1",
+    "^utils(.*)$": "<rootDir>/src/utils/$1",
   },
 };
 

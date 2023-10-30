@@ -1,10 +1,16 @@
 import ReportService from "../service/report.service";
 
+jest.mock("utils/fileTobase64", () => ({
+  fileToBase64: jest.fn(() => "hash"),
+}));
+
 const excel: any = {
   createWorkSheet: jest.fn(),
   generateColumns: jest.fn(),
   insertDataInCell: jest.fn(),
   commitWorkbook: jest.fn(),
+  uploadImage: jest.fn(),
+  setImageToWorksheet: jest.fn(),
 };
 
 const chart: any = {
@@ -22,8 +28,11 @@ test("Report generated successfully", async () => {
     },
   ];
   excel.createWorkSheet.mockReturnValue("worksheet");
+  excel.uploadImage.mockReturnValue("path");
+  excel.commitWorkbook.mockReturnValue("filepath");
+  chart.makeGraph.mockReturnValue("pathImage");
   // Act
-  reportService.generateReport(data, {
+  const output = await reportService.generateReport(data, {
     title: "test",
     values: [],
     labels: [],
@@ -31,6 +40,7 @@ test("Report generated successfully", async () => {
   // Assert
   expect(excel.createWorkSheet).toBeCalledWith("country-report");
   expect(excel.generateColumns).toBeCalled();
+  expect(chart.makeGraph).toBeCalled();
   expect(excel.insertDataInCell).toBeCalledWith(
     "worksheet",
     1,
@@ -43,5 +53,8 @@ test("Report generated successfully", async () => {
       alignment: { horizontal: "center" },
     }
   );
+  expect(excel.uploadImage).toBeCalled();
+  expect(excel.setImageToWorksheet).toBeCalled();
   expect(excel.commitWorkbook).toBeCalled();
+  expect(output).toEqual("hash");
 });

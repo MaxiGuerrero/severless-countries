@@ -1,4 +1,4 @@
-import * as fs from "fs";
+import { fileToBase64 } from "utils/fileTobase64";
 import Chart from "../charts/charts";
 import Excel from "../excel/exceljs";
 
@@ -37,10 +37,8 @@ export default class ReportService {
       graphValues.labels
     );
     const imageId = this.excel.uploadImage(pathImage);
-    worksheet.addImage(imageId, "H10:V41");
+    this.excel.setImageToWorksheet(worksheet, imageId, "H10:V41");
     const filePath = await this.excel.commitWorkbook("graph");
-    const binary: Buffer = fs.readFileSync(filePath);
-    const output = binary.toString("base64");
-    return output;
+    return fileToBase64(filePath);
   }
 }

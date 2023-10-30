@@ -1,8 +1,10 @@
 import { APIGatewayProxyHandler } from "aws-lambda";
 import { reportController } from "./controller/index";
+import { validatePath } from "utils/getfilepath";
 
 export const handler: APIGatewayProxyHandler = async (event) => {
   try {
+    validatePath();
     const resp = await reportController.getReportCountries();
     if (resp === "data-not-found") {
       return {

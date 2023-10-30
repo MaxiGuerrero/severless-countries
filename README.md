@@ -19,3 +19,17 @@ To install this project the commands are:
 To run this project in Local the command that you need use is:
 
         npm run start
+
+## Deploy in AWS
+
+First your must create a .env file in root of this project.
+
+Then your must fill the next fields:
+
+        AWS_ACCESS_KEY_ID=""
+
+        AWS_SECRET_ACCESS_KEY=""
+
+Once that your fill this variables, your must run this command:
+
+        npm run deploy
