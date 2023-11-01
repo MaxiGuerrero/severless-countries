@@ -24,6 +24,9 @@ export default class ReportService {
     }, {});
     this.excel.insertDataInCell(worksheet, 1, columnsId, header, {
       alignment: { horizontal: "center" },
+      font: {
+        bold: true,
+      },
     });
     // Insert all data
     data.forEach((d, index) => {

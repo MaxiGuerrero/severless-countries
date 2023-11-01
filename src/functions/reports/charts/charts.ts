@@ -36,7 +36,7 @@ export default class Chart {
           width: 800,
           height: 600,
         },
-        args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
+        args: [...chromium.args],
       });
       const page = await browser.newPage();
       const options = {
@@ -45,6 +45,14 @@ export default class Chart {
         scales: {
           y: {
             beginAtZero: true,
+          },
+          x: {
+            ticks: {
+              font: {
+                size: 10,
+                weight: "bold",
+              },
+            },
           },
         },
         plugins: {

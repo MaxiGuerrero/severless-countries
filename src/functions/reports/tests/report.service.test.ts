@@ -51,6 +51,9 @@ test("Report generated successfully", async () => {
     },
     {
       alignment: { horizontal: "center" },
+      font: {
+        bold: true,
+      },
     }
   );
   expect(excel.uploadImage).toBeCalled();

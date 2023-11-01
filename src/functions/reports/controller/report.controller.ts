@@ -11,12 +11,32 @@ export default class ReportsController {
 
   async getReportCountries() {
     try {
-      const countries: Country[] = await this.countryService.getCountries();
+      const countries = (await this.countryService.getCountries()) as Country[];
+      const usuallyLanguages = [
+        "English",
+        "Spanish",
+        "Chinese",
+        "French",
+        "Italian",
+        "Japanese",
+        "Greek",
+        "Korean",
+        "Arabic",
+        "Portuguese",
+        "Afrikaans",
+        "Others",
+      ];
       const languages = countries
         .map((country: Country) => country.languages)
-        .filter((l) => l);
-      const labels = [...new Set(languages)];
-      const values = countElementRepeat(languages);
+        .filter((l) => l)
+        .map((l) => {
+          if (!usuallyLanguages.includes(l)) {
+            return "Others";
+          }
+          return l;
+        });
+      const labels = usuallyLanguages;
+      const values = countElementRepeat(languages, usuallyLanguages);
       const report = await this.reportService.generateReport(countries, {
         title: "Amount of countries speak a language",
         labels,

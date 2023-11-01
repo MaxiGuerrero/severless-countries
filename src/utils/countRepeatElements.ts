@@ -1,6 +1,10 @@
-export function countElementRepeat(arr: any[]) {
+export function countElementRepeat(arr: any[], labels: string[]) {
+  if (arr.length === 0) {
+    return arr;
+  }
   const count = {};
-  for (const e of arr) {
+  labels.forEach((l) => (count[l] = 0));
+  for (let e of arr) {
     if (count[e]) {
       count[e]++;
     } else {
