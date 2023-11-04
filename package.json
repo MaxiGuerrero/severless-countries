@@ -15,6 +15,7 @@
     "@types/aws-lambda": "^8.10.125",
     "@types/jest": "^29.5.6",
     "@types/js-yaml": "^4.0.8",
+    "@types/node": "^20.8.10",
     "fs-extra": "^11.1.1",
     "jest": "^29.7.0",
     "serverless-offline": "^13.2.0",
@@ -27,11 +28,14 @@
   },
   "dependencies": {
     "@sparticuz/chromium": "^118.0.0",
+    "@types/uuid": "^9.0.6",
+    "aws-sdk": "^2.1487.0",
     "axios": "^1.5.1",
     "chart.js": "^4.4.0",
     "exceljs": "^4.4.0",
     "js-yaml": "^4.1.0",
     "puppeteer": "^21.4.1",
-    "puppeteer-core": "^21.4.1"
+    "puppeteer-core": "^21.4.1",
+    "uuid": "^9.0.1"
   }
 }

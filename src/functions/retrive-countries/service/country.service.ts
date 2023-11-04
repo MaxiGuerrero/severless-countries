@@ -1,33 +1,38 @@
 import HTTP from "http/axios";
 import { config } from "config/config";
 import { Country, Filters } from "models/index";
+import Cache from "cache/cache";
 
 export default class CountryService {
-  constructor(private readonly http: HTTP) {}
+  constructor(private readonly http: HTTP, private readonly cache: Cache) {}
 
   async getCountries(filters?: Filters) {
     try {
-      const { data } = await this.http.makeRequest(
-        `${config.BASE_URL}/all?fields=area,capital,continents,currencies,languages,name`,
-        "get",
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const countries: Country[] = data.map((country) => ({
-        area: country.area,
-        capital: country.capital ? country.capital[0] : undefined,
-        continents: country.continents ? country.continents[0] : undefined,
-        currencies: country.currencies
-          ? country.currencies[Object.keys(country.currencies)[0]]?.name
-          : undefined,
-        languages: country.languages
-          ? country.languages[Object.keys(country.languages)[0]]
-          : undefined,
-        name: country.name?.common,
-      }));
+      let countries: Country[] = await this.cache.get<Country>("countries");
+      if (countries.length === 0) {
+        const { data } = await this.http.makeRequest(
+          `${config.BASE_URL}/all?fields=area,capital,continents,currencies,languages,name`,
+          "get",
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        countries = data.map((country) => ({
+          area: country.area,
+          capital: country.capital ? country.capital[0] : undefined,
+          continents: country.continents ? country.continents[0] : undefined,
+          currencies: country.currencies
+            ? country.currencies[Object.keys(country.currencies)[0]]?.name
+            : undefined,
+          languages: country.languages
+            ? country.languages[Object.keys(country.languages)[0]]
+            : undefined,
+          name: country.name?.common,
+        }));
+        await this.cache.set(countries, "countries");
+      }
       if (!filters) {
         return countries;
       }

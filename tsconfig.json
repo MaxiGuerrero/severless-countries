@@ -9,6 +9,7 @@
     "module": "CommonJS",
     "target": "ESNext",
     "moduleResolution": "Node",
+    "esModuleInterop": true,
     "skipLibCheck": true,
     "lib": ["es2015"],
     "rootDir": "./",
@@ -17,7 +18,8 @@
       "functions/*": ["src/functions/*"],
       "config/*": ["src/config/*"],
       "models/*": ["src/models/*"],
-      "utils/*": ["src/utils/*"]
+      "utils/*": ["src/utils/*"],
+      "cache/*": ["src/cache/*"]
     }
   },
   "exclude": ["node_modules", "tests", "jest.config.ts"]

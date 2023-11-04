@@ -7,6 +7,12 @@ provider:
   runtime: nodejs18.x
   region: us-east-2
   stage: prod
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource:
+        - arn:aws:dynamodb:us-east-2:740360966654:table/countries
 
 params:
   default:
@@ -33,6 +39,23 @@ functions:
     events:
       - httpApi: GET /countries
     timeout: 20
+
+resources:
+  Resources:
+    countriesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: countries
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        TimeToLiveSpecification:
+          AttributeName: ttl
+          Enabled: true
 
 plugins:
   - serverless-offline
